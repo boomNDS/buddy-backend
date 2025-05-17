@@ -35,4 +35,8 @@ app.listen(config.PORT, () =>
   ),
 );
 
-export default app;
+export default {
+  async fetch(request: Request) {
+    return app.handle(request);
+  },
+};
