@@ -1,9 +1,19 @@
 import { bearer } from "@elysiajs/bearer";
 import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
+import { logger } from "@tqman/nice-logger";
 import { config } from "./config.ts";
+import { helmet } from "elysia-helmet";
 
 export const app = new Elysia()
-	.use(swagger())
-	.use(bearer())
-	.get("/", "Hello World");
+  .use(helmet())
+  .use(
+    logger({
+      mode: "live",
+      withBanner: true,
+      withTimestamp: true,
+    }),
+  )
+  .use(swagger())
+  .use(bearer())
+  .get("/", "Hello World");
