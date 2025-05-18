@@ -6,7 +6,9 @@ CREATE TABLE "diet" (
 	"line" text NOT NULL,
 	"amount" numeric NOT NULL,
 	"unit" "unit" NOT NULL,
-	"schedule" text NOT NULL
+	"schedule" text NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3)
 );
 --> statement-breakpoint
 CREATE TABLE "medications" (
@@ -14,7 +16,9 @@ CREATE TABLE "medications" (
 	"pet_id" integer NOT NULL,
 	"name" text NOT NULL,
 	"dosage" text NOT NULL,
-	"frequency" text NOT NULL
+	"frequency" text NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3)
 );
 --> statement-breakpoint
 CREATE TABLE "pets" (
@@ -26,12 +30,16 @@ CREATE TABLE "pets" (
 	"weight" integer NOT NULL,
 	"microchip" text NOT NULL,
 	"color" text NOT NULL,
-	"photo_url" text NOT NULL
+	"photo_url" text NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3)
 );
 --> statement-breakpoint
 CREATE TABLE "vet_clinics" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"name" text NOT NULL
+	"name" text NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3)
 );
 --> statement-breakpoint
 CREATE TABLE "vet_visits" (
@@ -40,7 +48,9 @@ CREATE TABLE "vet_visits" (
 	"clinic_id" integer NOT NULL,
 	"date" date NOT NULL,
 	"time" timestamp NOT NULL,
-	"notes" text
+	"notes" text,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp (3)
 );
 --> statement-breakpoint
 ALTER TABLE "diet" ADD CONSTRAINT "diet_pet_id_pets_id_fk" FOREIGN KEY ("pet_id") REFERENCES "public"."pets"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

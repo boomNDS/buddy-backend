@@ -23,7 +23,8 @@
     "elysia-helmet": "^2.0.0",
     "env-var": "^7.5.0",
     "ioredis": "^5.6.1",
-    "pg": "^8.16.0"
+    "pg": "^8.16.0",
+    "postgres": "^3.4.5"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
