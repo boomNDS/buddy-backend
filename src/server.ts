@@ -6,14 +6,14 @@ import { helmet } from "elysia-helmet";
 import { config } from "./config.ts";
 
 export const app = new Elysia()
-	.use(helmet())
-	.use(
-		logger({
-			mode: "live",
-			withBanner: true,
-			withTimestamp: true,
-		}),
-	)
-	.use(swagger())
-	.use(bearer())
-	.get("/", "Hello World");
+  .use(helmet())
+  .use(
+    logger({
+      mode: "live",
+      withBanner: true,
+      withTimestamp: true,
+    }),
+  )
+  .use(swagger())
+  .use(bearer())
+  .get("/", "Hello World");
