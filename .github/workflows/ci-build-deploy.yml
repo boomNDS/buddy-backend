@@ -23,6 +23,7 @@ jobs:
   build-publish:
     needs: migrate
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
