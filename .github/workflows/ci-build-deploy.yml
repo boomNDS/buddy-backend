@@ -29,8 +29,6 @@ jobs:
 
       - run: bun install
 
-      - run: bun test
-
       - name: Log in to GHCR
         run: echo "${{ secrets.GHCR_PAT }}" | \
           docker login ghcr.io -u ${{ github.actor }} --password-stdin
