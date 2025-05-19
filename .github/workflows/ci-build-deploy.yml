@@ -1,0 +1,50 @@
+name: CI / Build & Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: bun install
+
+      - run: bunx drizzle-kit generate \
+          --schema=./src/schema.ts \
+          --out=./drizzle
+
+      - run: bunx drizzle-kit migrate:latest \
+          --migrations="./drizzle"
+
+  build-publish:
+    needs: migrate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: bun install
+
+      - run: bun test
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GHCR_PAT }}" | \
+          docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }} .
+          docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}
+
+  deploy:
+    needs: build-publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy
+        uses: render-examples/render-deploy-action@v2
+        with:
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          service_id: ${{ secrets.RENDER_SERVICE_ID }}
+          image: ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}
+          wait_for_deploy: true
