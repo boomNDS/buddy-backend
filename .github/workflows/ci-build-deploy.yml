@@ -19,8 +19,7 @@ jobs:
 
       - run: bunx drizzle-kit generate
 
-      - run: bunx drizzle-kit migrate:latest \
-          --url="$DATABASE_URL"
+      - run: bunx drizzle-kit migrate
 
   build-publish:
     needs: migrate
