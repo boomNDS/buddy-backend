@@ -1,7 +1,6 @@
 import type { Config } from "drizzle-kit";
-import env from "env-var";
 
-const DATABASE_URL = env.get("DATABASE_URL").required().asString();
+const DATABASE_URL = process.env.DATABASE_URL;
 
 export default {
   schema: "./src/db/schema.ts",
