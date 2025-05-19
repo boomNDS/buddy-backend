@@ -7,13 +7,12 @@ on:
 jobs:
   migrate:
     runs-on: ubuntu-latest
+    environment: production
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-
-      - run: echo "DATABASE_URL is set to '$DATABASE_URL'"
 
       - run: bun install
 
@@ -43,6 +42,7 @@ jobs:
   deploy:
     needs: build-publish
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Trigger Render deploy
         uses: render-examples/render-deploy-action@v2
