@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  packages: write # Grants permission to push to GHCR
+
 jobs:
   migrate:
     runs-on: ubuntu-latest
@@ -43,13 +46,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_PAT }}
 
-      - name: Build & Push Docker image # Build + push in one go
+      - name: Set lowercase repository owner and name
+        run: |
+          echo "REPO_OWNER_LC=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+          echo "REPO_NAME_LC=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
+          echo "REPO_NAME_LC=${REPO_NAME_LC,,}" >> $GITHUB_ENV
+
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}
+          tags: ghcr.io/${{ env.REPO_OWNER_LC }}/${{ env.REPO_NAME_LC }}:${{ github.sha }}
 
   deploy:
     needs: build-publish
