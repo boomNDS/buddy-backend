@@ -29,7 +29,7 @@ process.on("unhandledRejection", (error) => {
 	console.error(error);
 });
 
-app.listen(config.PORT, () =>
+app.listen(3001, () =>
 	console.log(
 		`[${pc.gray(formatter.format(Date.now()))}] 🦊 Server started at ${app.server?.url.origin}`,
 	),
